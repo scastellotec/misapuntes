@@ -1,32 +1,16 @@
 name: Build and deploy
 
 on:
-  workflow_dispatch: # Allow manual triggers
   push:
-    tags-ignore:
-      - '**' # Ignore any tags here
     branches:
       - main
       - master
-    #
-    # Trigger when either files in the docs folder,
-    # the requirements.txt file or the mkdocs.yml file
-    # are edited and commited.
-    paths:
-      - 'docs/**'
-      #- 'requirements.txt'
-      - 'mkdocs.yml'
 
 # These permissions are required for it to work
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Makes sure only one workflow runs at a time.
-concurrency:
-  group: 'pages'
-  cancel-in-progress: false
+  contents: write
+#  pages: write
+#  id-token: write
 
 jobs:
   buildAndDeploy:
@@ -41,10 +25,10 @@ jobs:
       - name: Setup Python 3.x
         uses: actions/setup-python@v4
         with:
-          python_version: '3.x' # Uses latest 3.x version.
-      #- name: Install dependencies
+          python-version: 3.x # Uses latest 3.x version.
+      - name: Install dependencies
         # Alternatively: pip install mkdocs
-      #  run: pip install -r requirements.txt
+        run: pip install mkdocs-material
       - name: Build Docs
         run: mkdocs build
       - name: Configure GitHub Pages
