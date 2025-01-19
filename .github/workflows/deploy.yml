@@ -9,8 +9,8 @@ on:
 # These permissions are required for it to work
 permissions:
   contents: write
-#  pages: write
-#  id-token: write
+  pages: write
+  id-token: write
 
 jobs:
   buildAndDeploy:
