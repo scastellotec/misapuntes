@@ -1,6 +1,6 @@
 # Apuntes
 
-# 1. Introducción a las bases de datos NoSQL
+## 1. Introducción a las bases de datos NoSQL
 
 ## 1.1 Al principio solo estaban las BBDD Relacionales {#1.1-al-principio-solo-estaban-las-bbdd-relacionales}
 
