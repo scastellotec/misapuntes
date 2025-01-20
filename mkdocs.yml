@@ -8,6 +8,8 @@ theme:
     - navigation.path
     - navigation.top
     - navigation.tabs
+    - toc.follow
+    
   palette:
   
     # Palette toggle for light mode

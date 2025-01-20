@@ -1,4 +1,4 @@
-# Unidad didáctica 4 - Bases de datos objeto documentales
+# Apuntes
 
 # 1. Introducción a las bases de datos NoSQL
 
@@ -208,25 +208,26 @@ mongoClient.close()
 Documentación: [https://www.mongodb.com/docs/drivers/java/sync/v5.3/fundamentals/databases-collections/](https://www.mongodb.com/docs/drivers/java/sync/v5.3/fundamentals/databases-collections/) 
 
 Establecer conexión con una base de datos
-
-| MongoDatabase database \= mongoClient.getDatabase("testDatabase"); |
-| :---- |
-
-   
+```java title="main.java" linenums="1"
+MongoDatabase database = mongoClient.getDatabase("testDatabase");
+```
+  
 Establecer acceso a la colección
+```java title="main.java" linenums="1"
+MongoDatabase database = mongoClient.getDatabase("testDatabase");
+MongoCollection<Document> collection = database.getCollection("testCollection");
 
-| MongoDatabase database \= mongoClient.getDatabase("testDatabase");MongoCollection\<Document\> collection \= database.getCollection("testCollection"); |
-| :---- |
-
+```
 Crear un colección
-
-| database.createCollection("exampleCollection"); |
-| :---- |
+```java title="main.java" linenums="1"
+database.createCollection("exampleCollection");
+```
 
 Borrar una colección
-
-| MongoCollection\<Document\> collection \= database.getCollection("bass");collection.drop(); |
-| :---- |
+```java title="main.java" linenums="1"
+MongoCollection<Document> collection = database.getCollection("bass");
+collection.drop();
+```
 
 ## 4.3 Operaciones básicas {#4.3-operaciones-básicas}
 
@@ -439,19 +440,19 @@ replacementDocument specifies fields and values of a new Document object to repl
 
 La forma de organizar los datos y cómo están relacionados. MongoDB tiene un modelo de esquema flexible:
 
-* Los documentos dentro de una sola colección no están obligados a tener el mismo conjunto de campos.  
-* El tipo de dato de un campo puede diferir entre documentos dentro de una colección.
+- Los documentos dentro de una sola colección no están obligados a tener el mismo conjunto de campos.  
+- El tipo de dato de un campo puede diferir entre documentos dentro de una colección.
 
 
 Generalmente, los documentos en una colección comparten una estructura similar. Para garantizar la consistencia en tu modelo de datos.
 
 Al ser un modelo de datos flexible te permite organizar tus datos para adaptarse a las necesidades de tu aplicación. Esto es es útil en los siguientes escenarios:
 
-* **Seguimiento de departamentos**: Tu empresa realiza un seguimiento del departamento en el que trabaja cada empleado. Puedes incrustar la información del departamento dentro de la colección de empleados para devolver información relevante en una sola consulta.  
+- **Seguimiento de departamentos**: Tu empresa realiza un seguimiento del departamento en el que trabaja cada empleado. Puedes incrustar la información del departamento dentro de la colección de empleados para devolver información relevante en una sola consulta.  
     
-* **Reseñas recientes:** Tu aplicación de comercio electrónico muestra las cinco reseñas más recientes al mostrar un producto. Puedes almacenar las reseñas recientes en la misma colección que los datos del producto y guardar las reseñas antiguas en una colección separada porque no se acceden con tanta frecuencia.
+- **Reseñas recientes:** Tu aplicación de comercio electrónico muestra las cinco reseñas más recientes al mostrar un producto. Puedes almacenar las reseñas recientes en la misma colección que los datos del producto y guardar las reseñas antiguas en una colección separada porque no se acceden con tanta frecuencia.
 
-* **Catálogo de productos:** Tu tienda de ropa necesita crear una aplicación de una sola página para un catálogo de productos. Los diferentes productos tienen diferentes atributos y, por lo tanto, usan campos de documento distintos. Sin embargo, puedes almacenar todos los productos en la misma colección.
+- **Catálogo de productos:** Tu tienda de ropa necesita crear una aplicación de una sola página para un catálogo de productos. Los diferentes productos tienen diferentes atributos y, por lo tanto, usan campos de documento distintos. Sin embargo, puedes almacenar todos los productos en la misma colección.
 
 ### 4.5.2 Relación de los documentos
 
