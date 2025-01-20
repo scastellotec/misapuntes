@@ -1,64 +1,6 @@
-# Acceso a datos \- Unidad didáctica 4
+# Unidad didáctica 4 - Bases de datos objeto documentales
 
-## Acceso a bases de datos objeto documentales
-
-## Índice
-
-[1\. Introducción a las bases de datos NoSQL (Este apartado lo resumire)](#1.-introducción-a-las-bases-de-datos-nosql-\(este-apartado-lo-resumire\))
-
-[1.1 Al principio solo estaban las BBDD Relacionales](#1.1-al-principio-solo-estaban-las-bbdd-relacionales)
-
-[1.2 Nacimiento del NoSQL](#1.2-nacimiento-del-nosql)
-
-[1.3 Arquitectura de NoSQL](#1.3-arquitectura-de-nosql)
-
-[1.4 Modelos de consistencia](#1.4-modelos-de-consistencia)
-
-[1.5 Tipos de Bases de datos NoSQL](#1.5-tipos-de-bases-de-datos-nosql)
-
-[2\. MongoDB](#2.-mongodb)
-
-[2.1 ¿Qué es MongoDB?](#2.1-¿qué-es-mongodb?)
-
-[2.2. Estructuras que necesitas conocer](#2.2.-estructuras-que-necesitas-conocer)
-
-[3\. Poniendo en marcha MongoDB](#3.-poniendo-en-marcha-mongodb)
-
-[3.1 Descarga e instalación](#3.1-descarga-e-instalación)
-
-[3.2 Ejecución de MongoDB Server](#3.2-ejecución-de-mongodb-server)
-
-[3.3 Conectar desde MongoDB Compass o MongoDB Shell](#3.3-conectar-desde-mongodb-compass-o-mongodb-shell)
-
-[4\. Utilizando Java con MongoDB](#4.-utilizando-java-con-mongodb)
-
-[4.1 El driver de MongoDB](#4.1-el-driver-de-mongodb)
-
-[4.2 Gestión de la conexión](#4.2-gestión-de-la-conexión)
-
-[4.2.1 Establecer conexión con el servidor](#4.2.1-establecer-conexión-con-el-servidor)
-
-[4.2.1 Establecer conexión con la base de datos y colección](#4.2.1-establecer-conexión-con-la-base-de-datos-y-colección)
-
-[4.3 Operaciones básicas](#4.3-operaciones-básicas)
-
-[4.3.1 Crear y acceder a una colección](#4.3.1-crear-y-acceder-a-una-colección)
-
-[4.3.2 Documentos](#4.3.2-documentos)
-
-[4.3.3 POJOs](#4.3.3-pojos)
-
-[4.4 Operaciones CRUD](#4.4-operaciones-crud)
-
-[4.4.1 Read](#heading=h.rpx4f2pkdanv)
-
-[4.4.2 Write](#4.4.5-insertar-documentos)
-
-[4.4.3 Query](#4.4.3-query)
-
-[5\. Hibernate y MongoDB](#5.-hibernate-y-mongodb)
-
-# 1\. Introducción a las bases de datos NoSQL *(Este apartado lo resumire)* {#1.-introducción-a-las-bases-de-datos-nosql-(este-apartado-lo-resumire)}
+# 1. Introducción a las bases de datos NoSQL
 
 ## 1.1 Al principio solo estaban las BBDD Relacionales {#1.1-al-principio-solo-estaban-las-bbdd-relacionales}
 
@@ -218,14 +160,25 @@ Primero tendremos que conseguir el Driver, que son librerías JAR que se deben a
 **Para hacerlo con Maven**  
 También podemos usar Maven para insertar la dependencia: [https://www.mongodb.com/docs/drivers/java/sync/current/quick-start/\#std-label-java-sync-quickstart](https://www.mongodb.com/docs/drivers/java/sync/current/quick-start/#std-label-java-sync-quickstart) 
 
-| \<dependencies\>    \<dependency\>        \<groupId\>org.mongodb\</groupId\>        \<artifactId\>mongodb-driver-sync\</artifactId\>        \<version\>5.2.1\</version\>    \</dependency\>\</dependencies\> |
-| :---- |
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.mongodb</groupId>
+        <artifactId>mongodb-driver-sync</artifactId>
+        <version>5.2.1</version>
+    </dependency>
+</dependencies>
+```
 
 Si quieres poder visualizar el log de MongoDB también se debe incorporar esta dependencia.  
 Documentación: [https://www.mongodb.com/docs/drivers/java/sync/v5.3/fundamentals/logging/](https://www.mongodb.com/docs/drivers/java/sync/v5.3/fundamentals/logging/) 
-
-|   \<dependency\>    \<groupId\>ch.qos.logback\</groupId\>    \<artifactId\>logback-classic\</artifactId\>    \<version\>1.2.11\</version\>  \</dependency\> |
-| :---- |
+```xml
+<dependency>
+    <groupId>ch.qos.logback</groupId>
+    <artifactId>logback-classic</artifactId>
+    <version>1.2.11</version>
+</dependency>
+```
 
 ## 4.2 Gestión de la conexión {#4.2-gestión-de-la-conexión}
 
@@ -237,21 +190,20 @@ Te puedes comunicar con MongoDB utilizando la clase **MongoClient**. Este repres
 
 Averigua la **URI** de tu conexión con MongoDB. Desde **MongoDBCompass**, selecciona la conexión, pulsa **“...” (Show Actions)**, y pulsa sobre **“Copy connection String”**  
 ![][image5]
-
-| String uri \= "mongodb+srv://user:password@cluster.example.mongodb.net/"; |
-| :---- |
+```java title="main.java" linenums="1"
+String uri = "mongodb+srv://user:password@cluster.example.mongodb.net/";
+```
 
 Utiliza el método **MongoClients.create()** para construir un objeto **MongoClient**.
-
-| String uri \= "mongodb+srv://user:password@cluster.example.mongodb.net/";MongoClient mongoClient \= MongoClients.create(uri) |
-| :---- |
-
+```java title="main.java" linenums="1"
+String uri = "mongodb+srv://user:password@cluster.example.mongodb.net/";
+MongoClient mongoClient = MongoClients.create(uri)
+```
 Cerrar la conexión
-
-| mongoClient.close() |
-| :---- |
-
-### 4.2.1 Establecer conexión con la base de datos y colección {#4.2.1-establecer-conexión-con-la-base-de-datos-y-colección}
+```java title="main.java" linenums="1"
+mongoClient.close()
+```
+### 4.2.1 Establecer conexión con la base de datos y colección 
 
 Documentación: [https://www.mongodb.com/docs/drivers/java/sync/v5.3/fundamentals/databases-collections/](https://www.mongodb.com/docs/drivers/java/sync/v5.3/fundamentals/databases-collections/) 
 
